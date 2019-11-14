@@ -23,7 +23,7 @@ module.exports = {
     },
     async findOne (req, res) {
         const {login} = req.params;
-        await User.findOne({login})
+        await User.findOne({login}).select({"password":0, "_id":0, "__v":0})
         .then((user)=>{
             return res.status(200).json(user);
         }).catch((err)=>{

@@ -22,4 +22,4 @@ app.use ((req, res, next) => {
 
 app.use(require('./routes/UserRoutes.js'));
 
-server.listen(8080);
+server.listen(process.env.PORT || 8080);

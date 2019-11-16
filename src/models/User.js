@@ -22,6 +22,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: false,
         unique: true
+    },
+    type: {
+        type: String,
+        required: true,
+        uppercase: true,
+        enum: ['ADMIN', 'USER']
     }
 }, {
     timestamps: {

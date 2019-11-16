@@ -2,12 +2,13 @@ const User = require('../models/User');
 
 module.exports = {
     async create (req, res) {
-        const { name, login, password, email } = req.body;
+        const { name, login, password, email} = req.body;
         await User.create ({
             name,
             login,
             password,
-            email
+            email,
+            type: 'ADMIN'
         }).then((user) => {
             req.io.emit('user', user);
             return res.status(200).send('Usuário criado!');

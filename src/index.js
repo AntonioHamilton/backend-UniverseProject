@@ -21,5 +21,6 @@ app.use ((req, res, next) => {
 })
 
 app.use(require('./routes/UserRoutes.js'));
+app.use(require('./routes/authRoutes.js')(express));
 
 server.listen(process.env.PORT || 8080);

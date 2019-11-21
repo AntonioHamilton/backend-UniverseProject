@@ -13,7 +13,9 @@ BDconnection;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000/login'
+}));
 
 app.use ((req, res, next) => {
     req.io = io;

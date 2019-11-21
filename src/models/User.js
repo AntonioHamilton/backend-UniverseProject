@@ -51,6 +51,6 @@ UserSchema.methods = {
     encryptPassword(password) {
       return bcrypt.hashSync(password, 8);
     },
-  };
+};
 
 module.exports = mongoose.model('User', UserSchema);

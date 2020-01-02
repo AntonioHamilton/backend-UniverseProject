@@ -24,3 +24,4 @@ app.use(require('./routes/UserRoutes.js'));
 app.use(require('./routes/authRoutes.js')(express));
 
 server.listen(process.env.PORT || 8080);
+console.log(`Server Started on PORT ${process.env.PORT}`)

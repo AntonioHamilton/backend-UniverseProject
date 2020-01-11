@@ -14,6 +14,9 @@ module.exports = {
             return res.status(200).send('Usuário criado!');
         }).catch((err)=>{
             console.log(err);
+            if (err.code === 11000) {
+                return res.status(500).send('Esse usuário já existe no banco!')
+            }
             return res.status(500).send('Erro interno do servidor!');
         })
     },

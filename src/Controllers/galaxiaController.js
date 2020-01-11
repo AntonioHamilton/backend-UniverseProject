@@ -4,7 +4,7 @@ module.exports = {
 /*1*/
     async Create (req, res) {
         const { nome, quantidade_sistemas, distancia_terra } = req.body;
-        await Universe.create({
+        await Galaxia.create({
             nome, quantidade_sistemas, distancia_terra
         }).then( response => {
             return res.status(200).send('Criado um novo item na Galaxia!');

@@ -2,8 +2,8 @@ const express = require('express');
 const galaxiaController = require('../Controllers/galaxiaController')
 const routes = new express.Router();
 
-routes.get('/galaxia', galaxiaController.Read);
 routes.post('/galaxia', galaxiaController.Create);
+routes.get('/galaxia', galaxiaController.Read);
 routes.put('/galaxia/:nome', galaxiaController.Update);
 routes.delete('/galaxia/:nome', galaxiaController.Delete);
 

@@ -2,9 +2,9 @@ const express = require('express');
 const EstrelaBinariaController = require('../Controllers/EstrelaBinariaController')
 const routes = new express.Router();
 
-routes.post('/anaVermelha', EstrelaBinariaController.Create);
-routes.get('/anaVermelha', EstrelaBinariaController.Read);
-routes.put('/anaVermelha/:nome', EstrelaBinariaController.Update);
-routes.delete('/anaVermelha/:nome', EstrelaBinariaController.Delete);
+routes.post('/estrelaBinaria', EstrelaBinariaController.Create);
+routes.get('/estrelaBinaria', EstrelaBinariaController.Read);
+routes.put('/estrelaBinaria/:nome', EstrelaBinariaController.Update);
+routes.delete('/estrelaBinaria/:nome', EstrelaBinariaController.Delete);
 
 module.exports = routes;

@@ -21,7 +21,7 @@ app.use ((req, res, next) => {
 })
 
 app.use(require('./routes/UserRoutes.js'));
-app.use(require('./routes/GalaxiaRoutes.js'));
+app.use(require('./routes/galaxiaRoutes.js'));
 app.use(require('./routes/AnaBrancaRoutes.js'));
 app.use(require('./routes/AnaVermelhaRoutes.js'));
 app.use(require('./routes/EstrelaBinariaRoutes.js'));

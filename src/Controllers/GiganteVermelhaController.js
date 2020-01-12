@@ -7,11 +7,11 @@ module.exports = {
         await GiganteVermelha.create({
             nome, tamanho, massa
         }).then( response => {
-            return res.status(200).send('Criado um novo item na Gigante Vermelha!');
+            return res.status(200).send('Criado uma nova Gigante Vermelha!');
         }).catch( err => {
             console.log(err);
             if (err.code === 11000) {
-                return res.status(500).send('Esse usuário já existe no banco!');
+                return res.status(500).send('Essa Gigante Vermelha já existe no banco!');
             }
             return res.status(500).send('Erro interno do servidor!');
         })
@@ -28,7 +28,7 @@ module.exports = {
         const info = req.body;
         await GiganteVermelha.findOneAndUpdate({nome}, {$set:info})
         .then( response => {
-            req.io.emit('Gigante Vermelha', response);
+            req.io.emit('GiganteVermelha', response);
             return res.status(200).send('Gigante Vermelha atualizada!');
         }).catch( err => {
             console.log(err);
@@ -40,7 +40,7 @@ module.exports = {
         const { nome } = req.params;
         await GiganteVermelha.findOneAndDelete({ nome })
         .then( response => {
-            return res.status(200).send('Usuário deletado!');
+            return res.status(200).send('Gigante Vermelha deletado!');
         }).catch( err => {
             console.log(err);
             return res.status(500).send('Erro interno do servidor!');

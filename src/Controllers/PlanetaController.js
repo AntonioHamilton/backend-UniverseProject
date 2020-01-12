@@ -7,11 +7,11 @@ module.exports = {
         await Planeta.create({
             nome, tamanho, massa, gravidade, composicao
         }).then( response => {
-            return res.status(200).send('Criado um novo item no Planeta!');
+            return res.status(200).send('Criado um novo  Planeta!');
         }).catch( err => {
             console.log(err);
             if (err.code === 11000) {
-                return res.status(500).send('Esse usuário já existe no banco!');
+                return res.status(500).send('Esse Planeta já existe no banco!');
             }
             return res.status(500).send('Erro interno do servidor!');
         })
@@ -40,7 +40,7 @@ module.exports = {
         const { nome } = req.params;
         await Planeta.findOneAndDelete({ nome })
         .then( response => {
-            return res.status(200).send('Usuário deletado!');
+            return res.status(200).send('Planeta deletado!');
         }).catch( err => {
             console.log(err);
             return res.status(500).send('Erro interno do servidor!');

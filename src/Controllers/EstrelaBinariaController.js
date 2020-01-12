@@ -7,11 +7,11 @@ module.exports = {
         await EstrelaBinaria.create({
             nome, quantidade_sistemas, distancia_terra
         }).then( response => {
-            return res.status(200).send('Criado um novo item na Estrela Binaria!');
+            return res.status(200).send('Criado uma nova Estrela Binaria!');
         }).catch( err => {
             console.log(err);
             if (err.code === 11000) {
-                return res.status(500).send('Esse usuário já existe no banco!');
+                return res.status(500).send('Essa Estrela Binaria já existe!');
             }
             return res.status(500).send('Erro interno do servidor!');
         })
@@ -40,7 +40,7 @@ module.exports = {
         const { nome } = req.params;
         await EstrelaBinaria.findOneAndDelete({ nome })
         .then( response => {
-            return res.status(200).send('Usuário deletado!');
+            return res.status(200).send('Estrela Binaria deletada!');
         }).catch( err => {
             console.log(err);
             return res.status(500).send('Erro interno do servidor!');

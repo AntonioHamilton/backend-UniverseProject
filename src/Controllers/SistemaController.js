@@ -7,11 +7,11 @@ module.exports = {
         await Sistema.create({
             nome, quantidade_planetas, quantidade_estrelas, idade
         }).then( response => {
-            return res.status(200).send('Criado um novo item na Sistema!');
+            return res.status(200).send('Criado um novo Sistema!');
         }).catch( err => {
             console.log(err);
             if (err.code === 11000) {
-                return res.status(500).send('Esse usuário já existe no banco!');
+                return res.status(500).send('Esse Sistema já existe no banco!');
             }
             return res.status(500).send('Erro interno do servidor!');
         })
@@ -40,7 +40,7 @@ module.exports = {
         const { nome } = req.params;
         await Sistema.findOneAndDelete({ nome })
         .then( response => {
-            return res.status(200).send('Usuário deletado!');
+            return res.status(200).send('Sistema deletado!');
         }).catch( err => {
             console.log(err);
             return res.status(500).send('Erro interno do servidor!');

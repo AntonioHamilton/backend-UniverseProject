@@ -1,10 +1,10 @@
 const express = require('express');
-const galaxiaController = require('../Controllers/AnaBrancaController')
+const AnaBrancaController = require('../Controllers/AnaBrancaController')
 const routes = new express.Router();
 
-routes.post('/AnaBranca', galaxiaController.Create);
-routes.get('/AnaBranca', galaxiaController.Read);
-routes.put('/AnaBranca', galaxiaController.Update);
-routes.delete('/AnaBranca', galaxiaController.Delete);
+routes.post('/anaBranca', AnaBrancaController.Create);
+routes.get('/anaBranca', AnaBrancaController.Read);
+routes.put('/anaBranca/:nome', AnaBrancaController.Update);
+routes.delete('/anaBranca/:nome', AnaBrancaController.Delete);
 
 module.exports = routes;

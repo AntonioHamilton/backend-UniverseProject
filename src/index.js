@@ -21,8 +21,18 @@ app.use ((req, res, next) => {
 })
 
 app.use(require('./routes/UserRoutes.js'));
-app.use(require('./routes/galaxiaRoutes.js'));
+app.use(require('./routes/GalaxiaRoutes.js'));
+app.use(require('./routes/AnaBrancaRoutes.js'));
+app.use(require('./routes/AnaVermelhaRoutes.js'));
+app.use(require('./routes/EstrelaBinariaRoutes.js'));
+app.use(require('./routes/GiganteAzulRoutes.js'));
+app.use(require('./routes/GiganteVermelhaRoutes.js'));
+app.use(require('./routes/PlanetaRoutes.js'));
+app.use(require('./routes/SateliteRoutes.js'));
+app.use(require('./routes/SistemaRoutes.js'));
+app.use(require('./routes/SateliteRoutes.js'));
 app.use(require('./routes/authRoutes.js')(express));
+
 
 server.listen(process.env.PORT || 8080);
 console.log(`Server Started on PORT ${process.env.PORT}`)

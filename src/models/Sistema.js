@@ -12,17 +12,16 @@ const SistemaSchema = new mongoose.Schema ({
     },
     quantidade_planetas: {
         type: Number,
-        required: true
+        default: 0
     },
 
     quantidade_estrelas: {
         type: Number,
-        required: true
+        default: 0
     },
-    
     idade: {
         type: Number,
-        required: true
+        default: 0
     }
 
 })

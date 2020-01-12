@@ -12,16 +12,16 @@ const EstrelaSchema = new mongoose.Schema ({
     },
     idade: {
         type: Number,
-        required: true
+        default: 0
     },
     distancia_terra: {
         type: String,
-        required: true
+        default: 'Sem informação'
     },
 
     gravidade: {
         type: String,
-        required: true
+        default: 'Sem informação'
     }
 })
 

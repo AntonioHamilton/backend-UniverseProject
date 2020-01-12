@@ -12,12 +12,12 @@ const GalaxiaSchema = new mongoose.Schema ({
     },
     quantidade_sistemas: {
         type: Number,
-        required: true
+        default: 0
     },
 
     distancia_terra: {
         type: String,
-        required: true
+        default: 'Sem informação'
     }
 })
 

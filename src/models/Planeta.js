@@ -12,22 +12,21 @@ const PlanetaSchema = new mongoose.Schema({
     },
     tamanho: {
         type: String,
-        required: true
+        default: 'Sem informação'
     },
 
     massa: {
         type: String,
-        required: true
+        default: 'Sem informação'
     },
 
     gravidade: {
         type: String,
-        required: true
+        default: 'Sem informação'
     },
-
     composicao: {
         type: String,
-        required: true
+        default: 'Sem informação'
     }
 
 })

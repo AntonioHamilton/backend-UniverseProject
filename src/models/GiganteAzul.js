@@ -12,12 +12,12 @@ const GiganteAzulSchema = new mongoose.Schema ({
     },
     tamanho: {
         type: String,
-        required: true
+        default: 'Sem informação'
     },
 
     massa: {
         type: String,
-        required: true
+        default: 'Sem informação'
     }
 
 })

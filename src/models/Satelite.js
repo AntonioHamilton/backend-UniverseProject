@@ -12,17 +12,17 @@ const SateliteSchema = new mongoose.Schema ({
     },
     composicao: {
         type: String,
-        required: true
+        default: 'Sem informação'
     },
 
     tamanho: {
         type: String,
-        required: true
+        default: 'Sem informação'
     },
 
     massa: {
         type: String,
-        required: true
+        default: 'Sem informação'
     }
 
 })

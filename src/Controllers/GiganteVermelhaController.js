@@ -1,35 +1,35 @@
-const Galaxia = require('../models/Galaxia');
+const GiganteVermelha = require('../models/GiganteVermelha');
 
 module.exports = {
 /*1*/
     async Create (req, res) {
-        const { nome, quantidade_sistemas, distancia_terra } = req.body;
-        await Galaxia.create({
-            nome, quantidade_sistemas, distancia_terra
+        const { nome , tamanho, massa } = req.body;
+        await GiganteVermelha.create({
+            nome, tamanho, massa
         }).then( response => {
-            return res.status(200).send('Criado uma nova galáxia!');
+            return res.status(200).send('Criado um novo item na Gigante Vermelha!');
         }).catch( err => {
             console.log(err);
             if (err.code === 11000) {
-                return res.status(500).send('Esse galáxia já existe no banco!');
+                return res.status(500).send('Esse usuário já existe no banco!');
             }
             return res.status(500).send('Erro interno do servidor!');
         })
     },
 /*2*/
     async Read (req, res) {
-        const galaxia = await Galaxia.find().select({"__v":0});
-        return res.status(200).json(galaxia);
+        const giganteVermelha = await GiganteVermelha.find().select({"__v":0});
+        return res.status(200).json(giganteVermelha);
     },
 
 /*3*/
     async Update (req, res) {
         const { nome } = req.params;
         const info = req.body;
-        await Galaxia.findOneAndUpdate({nome}, {$set:info})
+        await GiganteVermelha.findOneAndUpdate({nome}, {$set:info})
         .then( response => {
-            req.io.emit('galaxia', response);
-            return res.status(200).send('Galáxia atualizada!');
+            req.io.emit('Gigante Vermelha', response);
+            return res.status(200).send('Gigante Vermelha atualizada!');
         }).catch( err => {
             console.log(err);
             return res.status(500).send('Erro interno do servidor!');
@@ -38,9 +38,9 @@ module.exports = {
 /*4*/
     async Delete (req, res) {
         const { nome } = req.params;
-        await Galaxia.findOneAndDelete({ nome })
+        await GiganteVermelha.findOneAndDelete({ nome })
         .then( response => {
-            return res.status(200).send('Galáxia deletada!');
+            return res.status(200).send('Usuário deletado!');
         }).catch( err => {
             console.log(err);
             return res.status(500).send('Erro interno do servidor!');

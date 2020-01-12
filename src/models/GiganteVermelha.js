@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const GiganteAzulSchema = new mongoose.Schema ({
+const GiganteVermelhaSchema = new mongoose.Schema ({
     nome: {
         type: String,
         required: true,
@@ -23,4 +23,4 @@ const GiganteAzulSchema = new mongoose.Schema ({
     }
 })
 
-module.exports = mongoose.model("GiganteAzul", GiganteAzulSchema);
+module.exports = mongoose.model("GiganteVermelha", GiganteVermelhaSchema);

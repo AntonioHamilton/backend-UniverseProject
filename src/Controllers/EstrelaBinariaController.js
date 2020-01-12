@@ -3,9 +3,9 @@ const EstrelaBinaria = require('../models/EstrelaBinaria');
 module.exports = {
 /*1*/
     async Create (req, res) {
-        const { nome, tamanho, massa } = req.body;
+        const { nome, tamanho, massa, url_imagem } = req.body;
         await EstrelaBinaria.create({
-            nome, quantidade_sistemas, distancia_terra
+            nome, quantidade_sistemas, distancia_terra, url_imagem
         }).then( response => {
             return res.status(200).send('Criado uma nova Estrela Binaria!');
         }).catch( err => {

@@ -3,9 +3,9 @@ const Sistema = require('../models/Sistema');
 module.exports = {
 /*1*/
     async Create (req, res) {
-        const { nome , quantidade_planetas, quantidade_estrelas, idade } = req.body;
+        const { nome , quantidade_planetas, quantidade_estrelas, idade, url_imagem } = req.body;
         await Sistema.create({
-            nome, quantidade_planetas, quantidade_estrelas, idade
+            nome, quantidade_planetas, quantidade_estrelas, idade, url_imagem
         }).then( response => {
             return res.status(200).send('Criado um novo Sistema!');
         }).catch( err => {

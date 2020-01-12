@@ -3,9 +3,9 @@ const AnaVermelha = require('../models/AnaVermelha');
 module.exports = {
     /*1*/
     async Create(req, res) {
-        const { nome, tamanho, massa } = req.body;
+        const { url_imagem, nome, tamanho, massa } = req.body;
         await AnaVermelha.create({
-            nome, tamanho, massa
+            nome, tamanho, massa, url_imagem
         }).then(response => {
             return res.status(200).send('Criado uma nova Anã Vermelha!');
         }).catch(err => {

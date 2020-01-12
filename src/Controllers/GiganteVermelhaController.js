@@ -3,9 +3,9 @@ const GiganteVermelha = require('../models/GiganteVermelha');
 module.exports = {
 /*1*/
     async Create (req, res) {
-        const { nome , tamanho, massa } = req.body;
+        const { nome , tamanho, massa, url_imagem } = req.body;
         await GiganteVermelha.create({
-            nome, tamanho, massa
+            nome, tamanho, massa, url_imagem
         }).then( response => {
             return res.status(200).send('Criado uma nova Gigante Vermelha!');
         }).catch( err => {

@@ -3,9 +3,9 @@ const Estrela = require('../models/Estrela');
 module.exports = {
 /*1*/
     async Create (req, res) {
-        const { idade , distancia_terra, gravidade } = req.body;
+        const { idade , distancia_terra, gravidade, url_imagem } = req.body;
         await Estrela.create({
-            idade, distancia_terra, gravidade
+            idade, distancia_terra, gravidade, url_imagem
         }).then( response => {
             return res.status(200).send('Criado uma nova Estrela!');
         }).catch( err => {

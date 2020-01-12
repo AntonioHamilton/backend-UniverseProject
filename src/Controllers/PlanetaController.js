@@ -3,9 +3,9 @@ const Planeta = require('../models/Planeta');
 module.exports = {
 /*1*/
     async Create (req, res) {
-        const { nome , tamanho, massa, gravidade, composicao } = req.body;
+        const { nome , tamanho, massa, gravidade, composicao, url_imagem } = req.body;
         await Planeta.create({
-            nome, tamanho, massa, gravidade, composicao
+            nome, tamanho, massa, gravidade, composicao, url_imagem
         }).then( response => {
             return res.status(200).send('Criado um novo  Planeta!');
         }).catch( err => {

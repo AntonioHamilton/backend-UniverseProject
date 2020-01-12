@@ -3,9 +3,9 @@ const Satelite = require('../models/Satelite');
 module.exports = {
 /*1*/
     async Create (req, res) {
-        const { nome , tamanho, massa, composicao } = req.body;
+        const { nome , tamanho, massa, composicao, url_imagem } = req.body;
         await Satelite.create({
-            nome, tamanho, massa, composicao
+            nome, tamanho, massa, composicao, url_imagem
         }).then( response => {
             return res.status(200).send('Criado um novo Satelite!');
         }).catch( err => {

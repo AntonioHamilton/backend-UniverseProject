@@ -21,6 +21,8 @@ const authenticate = async (req, res) => {
             expiresIn: 60 * 60
         });
 
+        console.log(token);
+
         return res.status(200).send({token, user});
 
     } catch (err) {

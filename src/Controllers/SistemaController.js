@@ -22,15 +22,18 @@ module.exports = {
       newSistemas = await Galaxia.findOne({ nome: galaxia });
       newSistemas = newSistemas.sistemas;
       newSistemas.push(nome_sistema);
+      quantidade_sistemas = newSistemas.length;
       await Galaxia.findOneAndUpdate(
         { nome: galaxia },
         {
-          sistemas: newSistemas
+          sistemas: newSistemas,
+          quantidade_sistemas
         }
       );
     } else {
       await Galaxia.create({
         nome: galaxia,
+        quantidade_sistemas: 1,
         sistemas: [nome_sistema]
       });
     }
@@ -93,9 +96,10 @@ module.exports = {
     let novaGalaxia = await Galaxia.findOne({ nome: galaxia });
     let novoSistema = novaGalaxia.sistemas;
     novoSistema.splice(novoSistema.indexOf(nome), 1);
+    let quantidade_sistemas = novoSistema.length;
     await Galaxia.findOneAndUpdate(
       { nome: galaxia },
-      { sistemas: novoSistema }
+      { sistemas: novoSistema, quantidade_sistemas }
     );
     await Sistema.findOneAndDelete({ nome })
       .then(response => {

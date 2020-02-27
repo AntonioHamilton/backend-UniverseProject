@@ -20,7 +20,8 @@ const GalaxiaSchema = new mongoose.Schema({
   },
   sistemas: {
     type: Array,
-    required: true
+    required: true,
+    default: []
   }
 });
 

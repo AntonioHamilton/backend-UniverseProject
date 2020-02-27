@@ -11,32 +11,6 @@ module.exports = {
       url_imagem,
       galaxia
     } = req.body;
-    const Galaxias = await Galaxia.find();
-    let confirm = false;
-    Galaxias.map(item => {
-      if (item.nome == galaxia) {
-        confirm = true;
-      }
-    });
-    if (confirm) {
-      newSistemas = await Galaxia.findOne({ nome: galaxia });
-      newSistemas = newSistemas.sistemas;
-      newSistemas.push(nome_sistema);
-      quantidade_sistemas = newSistemas.length;
-      await Galaxia.findOneAndUpdate(
-        { nome: galaxia },
-        {
-          sistemas: newSistemas,
-          quantidade_sistemas
-        }
-      );
-    } else {
-      await Galaxia.create({
-        nome: galaxia,
-        quantidade_sistemas: 1,
-        sistemas: [nome_sistema]
-      });
-    }
     await Sistema.create({
       nome: nome_sistema,
       quantidade_planetas,
@@ -66,18 +40,6 @@ module.exports = {
   async Update(req, res) {
     const { nome } = req.params;
     const info = req.body;
-    if (info.nome) {
-      let response = await Sistema.findOne({ nome });
-      let galaxia = response.galaxia;
-      let novaGalaxia = await Galaxia.findOne({ nome: galaxia });
-      let novoSistema = novaGalaxia.sistemas;
-      novoSistema.splice(novoSistema.indexOf(nome), 1);
-      novoSistema.push(info.nome);
-      await Galaxia.findOneAndUpdate(
-        { nome: galaxia },
-        { sistemas: novoSistema }
-      );
-    }
     await Sistema.findOneAndUpdate({ nome }, { $set: info })
       .then(response => {
         req.io.emit("Sistema", response);
@@ -91,16 +53,6 @@ module.exports = {
   /*4*/
   async Delete(req, res) {
     const { nome } = req.params;
-    let response = await Sistema.findOne({ nome });
-    let galaxia = response.galaxia;
-    let novaGalaxia = await Galaxia.findOne({ nome: galaxia });
-    let novoSistema = novaGalaxia.sistemas;
-    novoSistema.splice(novoSistema.indexOf(nome), 1);
-    let quantidade_sistemas = novoSistema.length;
-    await Galaxia.findOneAndUpdate(
-      { nome: galaxia },
-      { sistemas: novoSistema, quantidade_sistemas }
-    );
     await Sistema.findOneAndDelete({ nome })
       .then(response => {
         return res.status(200).send("Sistema deletado!");

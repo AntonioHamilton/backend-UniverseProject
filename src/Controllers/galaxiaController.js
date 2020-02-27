@@ -6,15 +6,6 @@ module.exports = {
   async Create(req, res) {
     let sistemas = [];
     const { nome, quantidade_sistemas, distancia_terra, url_imagem } = req.body;
-    await Sistema.find({ galaxia: nome })
-      .then(response => {
-        response.map(item => {
-          sistemas = [...sistemas, item.nome];
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
     await Galaxia.create({
       nome,
       quantidade_sistemas,
@@ -43,16 +34,6 @@ module.exports = {
   async Update(req, res) {
     const { nome } = req.params;
     const info = req.body;
-    if (info.nome) {
-      let galaxias = await Galaxia.findOne({ nome });
-      galaxias.sistemas.map(async item => {
-        let sistema = await Sistema.findOne({ nome: item });
-        sistema.galaxia = info.nome;
-        let galaxia = sistema.galaxia;
-        console.log(galaxia);
-        await Sistema.findOneAndUpdate({ nome: item }, { galaxia });
-      });
-    }
     await Galaxia.findOneAndUpdate({ nome }, { $set: info })
       .then(response => {
         req.io.emit("galaxia", response);
@@ -67,9 +48,6 @@ module.exports = {
   async Delete(req, res) {
     const { nome } = req.params;
     let galaxias = await Galaxia.findOne({ nome });
-    galaxias.sistemas.map(async item => {
-      await Sistema.findOneAndDelete({ nome: item });
-    });
     await Galaxia.findOneAndDelete({ nome })
       .then(response => {
         return res.status(200).send("Galáxia deletada!");

@@ -11,32 +11,6 @@ module.exports = {
       url_imagem,
       galaxia
     } = req.body;
-    const Galaxias = await Galaxia.find();
-    let confirm = false;
-    Galaxias.map(item => {
-      if (item.nome == galaxia) {
-        confirm = true;
-      }
-    });
-    if (confirm) {
-      newSistemas = await Galaxia.findOne({ nome: galaxia });
-      newSistemas = newSistemas.sistemas;
-      newSistemas.push(nome_sistema);
-      quantidade_sistemas = newSistemas.length;
-      await Galaxia.findOneAndUpdate(
-        { nome: galaxia },
-        {
-          sistemas: newSistemas,
-          quantidade_sistemas
-        }
-      );
-    } else {
-      await Galaxia.create({
-        nome: galaxia,
-        quantidade_sistemas: 1,
-        sistemas: [nome_sistema]
-      });
-    }
     await Sistema.create({
       nome: nome_sistema,
       quantidade_planetas,
@@ -45,7 +19,29 @@ module.exports = {
       url_imagem,
       galaxia
     })
-      .then(response => {
+      .then(async response => {
+        //RELAÇÃO SISTEMA - GALAXIA
+        const search = await Galaxia.findOne({ nome: galaxia });
+        if (search) {
+          search.sistemas = [...search.sistemas, nome_sistema];
+          search.quantidade_sistemas += 1;
+          await Galaxia.findOneAndUpdate(
+            {
+              nome: search.nome
+            },
+            {
+              sistemas: search.sistemas,
+              quantidade_sistemas: search.quantidade_sistemas
+            }
+          );
+        } else {
+          await Galaxia.create({
+            nome: galaxia,
+            sistemas: [nome_sistema],
+            quantidade_sistemas: 1
+          });
+        }
+        //FIM RELAÇÃO SISTEMA - GALAXIA
         return res.status(200).send("Criado um novo Sistema!");
       })
       .catch(err => {
@@ -66,6 +62,7 @@ module.exports = {
   async Update(req, res) {
     const { nome } = req.params;
     const info = req.body;
+    //RELAÇÃO GALAXIA - SISTEMA
     if (info.nome) {
       let response = await Sistema.findOne({ nome });
       let galaxia = response.galaxia;
@@ -78,6 +75,7 @@ module.exports = {
         { sistemas: novoSistema }
       );
     }
+    //FIM RELAÇÃO GALAXIA - SISTEMA
     await Sistema.findOneAndUpdate({ nome }, { $set: info })
       .then(response => {
         req.io.emit("Sistema", response);
@@ -91,16 +89,19 @@ module.exports = {
   /*4*/
   async Delete(req, res) {
     const { nome } = req.params;
-    let response = await Sistema.findOne({ nome });
-    let galaxia = response.galaxia;
-    let novaGalaxia = await Galaxia.findOne({ nome: galaxia });
-    let novoSistema = novaGalaxia.sistemas;
-    novoSistema.splice(novoSistema.indexOf(nome), 1);
-    let quantidade_sistemas = novoSistema.length;
+    const sistema = await Sistema.findOne({ nome });
+
+    //RELAÇÃO SISTEMA - GALAXIA
+    const search = await Galaxia.findOne({
+      nome: sistema.galaxia
+    });
     await Galaxia.findOneAndUpdate(
-      { nome: galaxia },
-      { sistemas: novoSistema, quantidade_sistemas }
+      { nome: sistema.galaxia },
+      {
+        sistemas: search.sistemas.splice(search.sistemas.indexOf(nome), 1)
+      }
     );
+    //FIM RELAÇÃO SISTEMA - GALAXIA
     await Sistema.findOneAndDelete({ nome })
       .then(response => {
         return res.status(200).send("Sistema deletado!");

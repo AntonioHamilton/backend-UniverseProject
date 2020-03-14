@@ -26,9 +26,6 @@ const SistemaSchema = new mongoose.Schema({
   galaxia: {
     type: String,
     required: true
-  },
-  planetas: {
-    type: Array
   }
 });
 

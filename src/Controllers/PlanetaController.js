@@ -29,14 +29,13 @@ module.exports = {
         const search = await Sistema.findOne({ nome: sistema });
         if (search) {
           search.planetas = [...search.planetas, nome_planeta];
-          search.quantidade_planetas += 1;
           await Sistema.findOneAndUpdate(
             {
               nome: search.nome
             },
             {
               planetas: search.planetas,
-              quantidade_planetas: search.quantidade_planetas
+              quantidade_planetas: search.quantidade_planetas.length
             }
           );
         } else {
@@ -45,7 +44,7 @@ module.exports = {
               body: {
                 nome: sistema,
                 planetas: [nome_planeta],
-                quantidade_plaentas: 1,
+                quantidade_planetas: 1,
                 galaxia
               }
             },
@@ -121,7 +120,7 @@ module.exports = {
                 search.planetas.indexOf(nome),
                 1
               ),
-              quantidade_sistemas: (search.quantidade_planetas -= 1)
+              quantidade_planetas: search.planetas.length
             }
           },
           resposta

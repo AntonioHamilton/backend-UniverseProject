@@ -1,6 +1,7 @@
 const Sistema = require("../models/Sistema");
 const Galaxia = require("../models/Galaxia");
 const Planeta = require("../models/Planeta");
+const Estrela = require("../models/Estrela");
 module.exports = {
   /*1*/
   async Create(req, res) {
@@ -34,7 +35,7 @@ module.exports = {
             },
             {
               sistemas: search.sistemas,
-              quantidade_sistemas: search.quantidade_sistemas
+              quantidade_sistemas: search.quantidade_sistemas.length
             }
           );
         } else {
@@ -90,6 +91,17 @@ module.exports = {
       });
     }
     //FIM RELAÇÃO SISTEMA - PLANETA
+    //RELAÇÃO SISTEMA - ESTRELA
+    if (info.nome) {
+      let sistema = await Sistema.findOne({ nome });
+      sistema.estrelas.map(async item => {
+        await Estrela.findOneAndUpdate(
+          { nome: item },
+          { sistema: sistema.nome }
+        );
+      });
+    }
+    //FIM RELAÇÃO SISTEMA - ESTRELA
     await Sistema.findOneAndUpdate({ nome }, { $set: info })
       .then(response => {
         return res.status(200).send("Sistema atualizada!");
@@ -117,9 +129,24 @@ module.exports = {
     //FIM RELAÇÃO SISTEMA - GALAXIA
     //RELAÇÃO PLANETA - SISTEMA
     sistema.planetas.map(async item => {
-      await Planeta.findOneAndDelete({ nome: item });
+      await Planeta.findOneAndUpdate(
+        { nome: item },
+        {
+          sistema: "Desconhecido"
+        }
+      );
     });
     //FIM RELAÇÃO PLANETA - SISTEMA
+    //RELAÇÃO ESTRELA - SISTEMA
+    sistema.estrelas.map(async item => {
+      await Estrela.findOneAndUpdate(
+        { nome: item },
+        {
+          sistema: "Desconhecido"
+        }
+      );
+    });
+    //FIM RELAÇÃO ESTRELA - SISTEMA
     await Sistema.findOneAndDelete({ nome })
       .then(response => {
         return res.status(200).send("Sistema deletado!");

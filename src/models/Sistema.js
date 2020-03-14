@@ -29,6 +29,10 @@ const SistemaSchema = new mongoose.Schema({
   planetas: {
     type: Array,
     default: []
+  },
+  estrelas: {
+    type: Array,
+    default: []
   }
 });
 

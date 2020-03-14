@@ -28,9 +28,9 @@ const PlanetaSchema = new mongoose.Schema({
     type: String,
     default: "Sem informação"
   },
-  sistemas: {
-    type: Array,
-    default: []
+  sistema: {
+    type: String,
+    required: true
   }
 });
 

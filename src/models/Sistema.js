@@ -14,7 +14,6 @@ const SistemaSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-
   quantidade_estrelas: {
     type: Number,
     default: 0
@@ -26,6 +25,10 @@ const SistemaSchema = new mongoose.Schema({
   galaxia: {
     type: String,
     required: true
+  },
+  planetas: {
+    type: Array,
+    default: []
   }
 });
 

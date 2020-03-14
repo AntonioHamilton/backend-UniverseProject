@@ -1,27 +1,58 @@
 const Planeta = require("../models/Planeta");
-
+const Sistema = require("../models/Sistema");
+const SistemaController = require("../Controllers/SistemaController");
+var resposta = { status: x => ({ send: x => console.log(x) }) };
 module.exports = {
   /*1*/
   async Create(req, res) {
     const {
-      nome,
+      nome: nome_planeta,
       tamanho,
       massa,
       gravidade,
       composicao,
       url_imagem,
-      sistemas
+      sistema,
+      galaxia
     } = req.body;
     await Planeta.create({
-      nome,
+      nome: nome_planeta,
       tamanho,
       massa,
       gravidade,
       composicao,
       url_imagem,
-      sistemas
+      sistema
     })
-      .then(response => {
+      .then(async response => {
+        //RELAÇÃO PLANETA - SISTEMA
+        const search = await Sistema.findOne({ nome: sistema });
+        if (search) {
+          search.planetas = [...search.planetas, nome_planeta];
+          search.quantidade_planetas += 1;
+          await Sistema.findOneAndUpdate(
+            {
+              nome: search.nome
+            },
+            {
+              planetas: search.planetas,
+              quantidade_planetas: search.quantidade_planetas
+            }
+          );
+        } else {
+          await SistemaController.Create(
+            {
+              body: {
+                nome: sistema,
+                planetas: [nome_planeta],
+                quantidade_plaentas: 1,
+                galaxia
+              }
+            },
+            resposta
+          );
+        }
+        //FIM RELAÇÃO PLANETA - SISTEMA
         return res.status(200).send("Criado um novo  Planeta!");
       })
       .catch(err => {
@@ -42,9 +73,25 @@ module.exports = {
   async Update(req, res) {
     const { nome } = req.params;
     const info = req.body;
+    //RELAÇÃO SISTEMA - PLANETA
+    if (info.nome) {
+      let planeta = await sistema.findOne({ nome });
+      let sistema = await Sistema.findOne({ nome: planeta.sistema });
+      sistema.planetas.splice(sistema.planetas.indexOf(nome), 1);
+      sistema.planetas.push(info.nome);
+      await SistemaController.Update(
+        {
+          params: { nome: planeta.sistema },
+          body: {
+            planetas: sistema.planetas
+          }
+        },
+        resposta
+      );
+    }
+    //FIM RELAÇÃO SISTEMA - PLANETA
     await Planeta.findOneAndUpdate({ nome }, { $set: info })
       .then(response => {
-        req.io.emit("Planeta", response);
         return res.status(200).send("Planeta atualizada!");
       })
       .catch(err => {
@@ -55,8 +102,31 @@ module.exports = {
   /*4*/
   async Delete(req, res) {
     const { nome } = req.params;
+    //RELAÇÃO PLANETA - SISTEMA
+    const planeta = await Planeta.findOne({
+      nome
+    });
+    //FIM RELAÇÃO PLANETA - SISTEMA
     await Planeta.findOneAndDelete({ nome })
-      .then(response => {
+      .then(async response => {
+        const search = await Sistema.findOne({
+          nome: planeta.sistema
+        });
+        //RELAÇÃO PLANETA - SISTEMA
+        await SistemaController.Update(
+          {
+            params: { nome: planeta.sistema },
+            body: {
+              planetas: search.planetas.splice(
+                search.planetas.indexOf(nome),
+                1
+              ),
+              quantidade_sistemas: (search.quantidade_planetas -= 1)
+            }
+          },
+          resposta
+        );
+        //FIM RELAÇÃO PLANETA - SISTEMA
         return res.status(200).send("Planeta deletado!");
       })
       .catch(err => {

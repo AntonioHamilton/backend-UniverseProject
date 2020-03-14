@@ -45,7 +45,6 @@ module.exports = {
     //FIM RELAÇÃO GALAXIA - SISTEMA
     await Galaxia.findOneAndUpdate({ nome }, { $set: info })
       .then(response => {
-        req.io.emit("galaxia", response);
         return res.status(200).send("Galáxia atualizada!");
       })
       .catch(err => {

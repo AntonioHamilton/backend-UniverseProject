@@ -1,5 +1,6 @@
 const Sistema = require("../models/Sistema");
 const Galaxia = require("../models/Galaxia");
+const Planeta = require("../models/Planeta");
 module.exports = {
   /*1*/
   async Create(req, res) {
@@ -9,7 +10,8 @@ module.exports = {
       quantidade_estrelas,
       idade,
       url_imagem,
-      galaxia
+      galaxia,
+      planetas
     } = req.body;
     await Sistema.create({
       nome: nome_sistema,
@@ -17,7 +19,8 @@ module.exports = {
       quantidade_estrelas,
       idade,
       url_imagem,
-      galaxia
+      galaxia,
+      planetas
     })
       .then(async response => {
         //RELAÇÃO SISTEMA - GALAXIA
@@ -76,9 +79,19 @@ module.exports = {
       );
     }
     //FIM RELAÇÃO GALAXIA - SISTEMA
+    //RELAÇÃO SISTEMA - PLANETA
+    if (info.nome) {
+      let sistema = await Sistema.findOne({ nome });
+      sistema.planetas.map(async item => {
+        await Planeta.findOneAndUpdate(
+          { nome: item },
+          { sistema: sistema.nome }
+        );
+      });
+    }
+    //FIM RELAÇÃO SISTEMA - PLANETA
     await Sistema.findOneAndUpdate({ nome }, { $set: info })
       .then(response => {
-        req.io.emit("Sistema", response);
         return res.status(200).send("Sistema atualizada!");
       })
       .catch(err => {
@@ -89,19 +102,24 @@ module.exports = {
   /*4*/
   async Delete(req, res) {
     const { nome } = req.params;
-    const sistema = await Sistema.findOne({ nome });
-
     //RELAÇÃO SISTEMA - GALAXIA
+    const sistema = await Sistema.findOne({ nome });
     const search = await Galaxia.findOne({
       nome: sistema.galaxia
     });
     await Galaxia.findOneAndUpdate(
       { nome: sistema.galaxia },
       {
-        sistemas: search.sistemas.splice(search.sistemas.indexOf(nome), 1)
+        sistemas: search.sistemas.splice(search.sistemas.indexOf(nome), 1),
+        quantidade_sistemas: (search.quantidade_sistemas -= 1)
       }
     );
     //FIM RELAÇÃO SISTEMA - GALAXIA
+    //RELAÇÃO PLANETA - SISTEMA
+    sistema.planetas.map(async item => {
+      await Planeta.findOneAndDelete({ nome: item });
+    });
+    //FIM RELAÇÃO PLANETA - SISTEMA
     await Sistema.findOneAndDelete({ nome })
       .then(response => {
         return res.status(200).send("Sistema deletado!");

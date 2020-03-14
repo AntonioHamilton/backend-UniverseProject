@@ -1,6 +1,8 @@
-const mongoose = require('mongoose');
-require('dotenv/config')
+const mongoose = require("mongoose");
+require("dotenv/config");
 
-mongoose.set('useUnifiedTopology', true);
+mongoose.set("useUnifiedTopology", true);
 
-module.exports = (function () { mongoose.connect( process.env.URL, {useNewUrlParser: true}) })();
+module.exports = (function() {
+  mongoose.connect(process.env.URL_DEV, { useNewUrlParser: true });
+})();

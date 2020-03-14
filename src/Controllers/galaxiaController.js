@@ -4,14 +4,12 @@ const Sistema = require("../models/Sistema");
 module.exports = {
   /*1*/
   async Create(req, res) {
-    let sistemas = [];
     const { nome, quantidade_sistemas, distancia_terra, url_imagem } = req.body;
     await Galaxia.create({
       nome,
       quantidade_sistemas,
       distancia_terra,
-      url_imagem,
-      sistemas
+      url_imagem
     })
       .then(response => {
         return res.status(200).send("Criado uma nova galáxia!");
@@ -34,6 +32,17 @@ module.exports = {
   async Update(req, res) {
     const { nome } = req.params;
     const info = req.body;
+    //RELAÇÃO GALAXIA - SISTEMA
+    if (info.nome) {
+      let galaxias = await Galaxia.findOne({ nome });
+      galaxias.sistemas.map(async item => {
+        let sistema = await Sistema.findOne({ nome: item });
+        sistema.galaxia = info.nome;
+        let galaxia = sistema.galaxia;
+        await Sistema.findOneAndUpdate({ nome: item }, { galaxia });
+      });
+    }
+    //FIM RELAÇÃO GALAXIA - SISTEMA
     await Galaxia.findOneAndUpdate({ nome }, { $set: info })
       .then(response => {
         req.io.emit("galaxia", response);
@@ -47,7 +56,12 @@ module.exports = {
   /*4*/
   async Delete(req, res) {
     const { nome } = req.params;
+    //RELAÇÃO GALAXIA - SISTEMA
     let galaxias = await Galaxia.findOne({ nome });
+    galaxias.sistemas.map(async item => {
+      await Sistema.findOneAndDelete({ nome: item });
+    });
+    //FIM RELAÇÃO GALAXIA - SISTEMA
     await Galaxia.findOneAndDelete({ nome })
       .then(response => {
         return res.status(200).send("Galáxia deletada!");

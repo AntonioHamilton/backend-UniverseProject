@@ -33,6 +33,10 @@ const EstrelaSchema = new mongoose.Schema({
   sistema: {
     type: String,
     required: true
+  },
+  orbitada: {
+    type: Array,
+    default: []
   }
 });
 

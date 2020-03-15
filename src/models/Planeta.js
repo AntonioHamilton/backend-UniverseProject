@@ -31,6 +31,14 @@ const PlanetaSchema = new mongoose.Schema({
   sistema: {
     type: String,
     required: true
+  },
+  orbita: {
+    type: Array,
+    default: []
+  },
+  orbitado: {
+    type: Array,
+    default: []
   }
 });
 

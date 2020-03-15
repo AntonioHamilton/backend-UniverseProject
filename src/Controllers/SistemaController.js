@@ -12,7 +12,8 @@ module.exports = {
       idade,
       url_imagem,
       galaxia,
-      planetas
+      planetas,
+      estrelas
     } = req.body;
     await Sistema.create({
       nome: nome_sistema,
@@ -21,21 +22,21 @@ module.exports = {
       idade,
       url_imagem,
       galaxia,
-      planetas
+      planetas,
+      estrelas
     })
       .then(async response => {
         //RELAÇÃO SISTEMA - GALAXIA
         const search = await Galaxia.findOne({ nome: galaxia });
         if (search) {
           search.sistemas = [...search.sistemas, nome_sistema];
-          search.quantidade_sistemas += 1;
           await Galaxia.findOneAndUpdate(
             {
               nome: search.nome
             },
             {
               sistemas: search.sistemas,
-              quantidade_sistemas: search.quantidade_sistemas.length
+              quantidade_sistemas: search.sistemas.length
             }
           );
         } else {
@@ -123,7 +124,7 @@ module.exports = {
       { nome: sistema.galaxia },
       {
         sistemas: search.sistemas.splice(search.sistemas.indexOf(nome), 1),
-        quantidade_sistemas: (search.quantidade_sistemas -= 1)
+        quantidade_sistemas: search.sistemas.length
       }
     );
     //FIM RELAÇÃO SISTEMA - GALAXIA

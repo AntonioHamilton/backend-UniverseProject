@@ -14,12 +14,10 @@ const SateliteSchema = new mongoose.Schema({
     type: String,
     default: "Sem informação"
   },
-
   tamanho: {
     type: String,
     default: "Sem informação"
   },
-
   massa: {
     type: String,
     default: "Sem informação"

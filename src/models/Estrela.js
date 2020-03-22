@@ -9,11 +9,6 @@ const EstrelaSchema = new mongoose.Schema({
   tamanho: {
     type: String
   },
-  id: {
-    type: String,
-    required: true,
-    unique: true
-  },
   url_imagem: {
     type: String,
     default: "http://www.clandestina.com.br/images/default.png"

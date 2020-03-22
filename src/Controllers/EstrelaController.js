@@ -17,7 +17,8 @@ module.exports = {
       id,
       sistema,
       galaxia,
-      orbitada
+      orbitada,
+      tipo
     } = req.body;
     if (!id) {
       const allStars = await Estrela.find();
@@ -37,7 +38,8 @@ module.exports = {
       url_imagem,
       id,
       sistema,
-      orbitada
+      orbitada,
+      tipo
     })
       .then(async response => {
         //RELAÇÃO ESTRELA - SISTEMA

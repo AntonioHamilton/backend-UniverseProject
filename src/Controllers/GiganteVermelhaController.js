@@ -1,16 +1,42 @@
 const GiganteVermelha = require("../models/GiganteVermelha");
-
+const BuracoNegro = require("../models/BuracosNegro");
+var resposta = { status: x => ({ send: x => console.log(x) }) };
 module.exports = {
   /*1*/
   async Create(req, res) {
-    const { nome, tamanho, massa, url_imagem } = req.body;
+    const {
+      nome,
+      tamanho,
+      massa,
+      url_imagem,
+      idade,
+      distancia_terra,
+      sistema,
+      orbitada
+    } = req.body;
     await GiganteVermelha.create({
       nome,
       tamanho,
       massa,
       url_imagem
     })
-      .then(response => {
+      .then(async response => {
+        await require("../Controllers/EstrelaController").Create(
+          {
+            body: {
+              nome,
+              tamanho,
+              massa,
+              url_imagem,
+              idade,
+              distancia_terra,
+              sistema,
+              orbitada,
+              tipo: "Gigante Vermelha"
+            }
+          },
+          resposta
+        );
         return res.status(200).send("Criado uma nova Gigante Vermelha!");
       })
       .catch(err => {
@@ -34,7 +60,16 @@ module.exports = {
     const { nome } = req.params;
     const info = req.body;
     await GiganteVermelha.findOneAndUpdate({ nome }, { $set: info })
-      .then(response => {
+      .then(async response => {
+        if (info.morte) {
+          const giganteVermelha = await GiganteVermelha.find();
+          await BuracoNegro.create({
+            url_imagem: giganteVermelha.url_imagem,
+            nome: giganteVermelha.nome,
+            tamanho: giganteVermelha.tamanho,
+            massa: giganteVermelha.massa
+          });
+        }
         return res.status(200).send("Gigante Vermelha atualizada!");
       })
       .catch(err => {

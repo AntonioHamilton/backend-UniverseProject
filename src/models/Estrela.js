@@ -26,10 +26,6 @@ const EstrelaSchema = new mongoose.Schema({
     type: String,
     default: "Sem informação"
   },
-  gravidade: {
-    type: String,
-    default: "Sem informação"
-  },
   sistema: {
     type: String,
     required: true
@@ -37,6 +33,16 @@ const EstrelaSchema = new mongoose.Schema({
   orbitada: {
     type: Array,
     default: []
+  },
+  tipo: {
+    type: String,
+    enum: [
+      "Anã Vermelha",
+      "Anã Branca",
+      "Gigante Azul",
+      "Estrela Binária",
+      "Gigante Vermelha"
+    ]
   }
 });
 

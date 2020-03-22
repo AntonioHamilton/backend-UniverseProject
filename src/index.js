@@ -21,12 +21,9 @@ app.use((req, res, next) => {
 });
 
 app.use(require("./routes/UserRoutes.js"));
+app.use(require("./routes/BuracoRoutes.js"));
 app.use(require("./routes/galaxiaRoutes.js"));
-app.use(require("./routes/AnaBrancaRoutes.js"));
-app.use(require("./routes/AnaVermelhaRoutes.js"));
 app.use(require("./routes/EstrelaRoutes.js"));
-app.use(require("./routes/EstrelaBinariaRoutes.js"));
-app.use(require("./routes/GiganteAzulRoutes.js"));
 app.use(require("./routes/GiganteVermelhaRoutes.js"));
 app.use(require("./routes/PlanetaRoutes.js"));
 app.use(require("./routes/SateliteRoutes.js"));

@@ -7,7 +7,8 @@ const EstrelaSchema = new mongoose.Schema({
     unique: true
   },
   tamanho: {
-    type: String
+    type: String,
+    default: "Sem informação"
   },
   url_imagem: {
     type: String,

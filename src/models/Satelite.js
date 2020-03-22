@@ -29,7 +29,8 @@ const SateliteSchema = new mongoose.Schema({
     default: "Sem informação"
   },
   tipoOrbita: {
-    type: String
+    type: String,
+    enum: ["estrela", "planeta"]
   }
 });
 
